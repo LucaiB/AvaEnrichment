@@ -1,47 +1,63 @@
-# Ask Ava Enrichments — MVP (Bedrock + Tavily)
+# Ask Ava Enrichments
 
-Minimal Next.js + TypeScript app that lets a user enter a **company domain** (or homepage URL),
-runs a **web search** (Tavily API) with domain restriction, pulls cleaned page content,
-and asks **Amazon Bedrock (Converse API)** to return **structured enrichment**: facts (with sources),
-personalization snippets, coaching hints, and filterable attributes.
+AI-powered company enrichment tool that provides structured insights for sales and business development. Enter a company domain and get facts, personalization angles, coaching hints, and target attributes.
 
-> Scope is intentionally narrow and fast to implement. No login, no DB.
+## How It Works
+
+1. **Enter a company domain** (e.g., `openai.com` or `https://stripe.com`)
+2. **Customize your search query** (default: "Find a timely personalization angle")
+3. **AI analyzes the company** using web search and Amazon Bedrock
+4. **Get structured results** with facts, personalization, coaching, and attributes
+
+### System Architecture
+
+- **Web Search**: Uses Tavily API to find relevant content from the company's website
+- **AI Processing**: Amazon Bedrock (Claude 3.5 Sonnet) extracts structured insights
+- **Domain-First Strategy**: Prioritizes first-party content, falls back to open web
+- **Structured Output**: Returns facts with sources, personalization variants, coaching hints, and target attributes
 
 ## Quick Start
 
 ```bash
-npm i
-# Create .env.local file with your API keys:
-#   MODEL_PROVIDER=bedrock
-#   AWS_REGION=us-east-1
-#   BEDROCK_MODEL_ID=anthropic.claude-3-5-sonnet-20240620-v1:0
+# Install dependencies
+npm install
+
+# Create environment file
+touch .env.local
+# Edit .env.local with your API keys:
 #   AWS_ACCESS_KEY_ID=your_aws_access_key
 #   AWS_SECRET_ACCESS_KEY=your_aws_secret_key
+#   AWS_REGION=us-east-1
+#   BEDROCK_MODEL_ID=anthropic.claude-3-5-sonnet-20240620-v1:0
 #   TAVILY_API_KEY=your_tavily_api_key
 
+# Start development server
 npm run dev
-# open http://localhost:3000
+# Open http://localhost:3000
 ```
 
-## What changed vs previous MVP
-- **LLM:** uses **Amazon Bedrock** (Converse API) via `@aws-sdk/client-bedrock-runtime`.
-- **Search:** uses **Tavily Search API** to discover relevant first‑party content with `include_domains=[domain]`
-  and return **cleaned content** (`include_raw_content="markdown"`). Falls back to open‑web if no first‑party results.
-- **Pipeline:** `search -> summarize pages -> Bedrock extraction (strict JSON)`.
+## Environment Variables
 
-## Environment
+Required environment variables in `.env.local`:
 
-- `MODEL_PROVIDER=bedrock`
-- `AWS_REGION=us-east-1` (or your region that has the model)
-- `BEDROCK_MODEL_ID=anthropic.claude-3-5-sonnet-20240620-v1:0` (or other)
-- `TAVILY_API_KEY=tvly-...`
+- `AWS_ACCESS_KEY_ID` - Your AWS access key
+- `AWS_SECRET_ACCESS_KEY` - Your AWS secret key  
+- `AWS_REGION` - AWS region (e.g., `us-east-1`)
+- `BEDROCK_MODEL_ID` - Bedrock model ID (e.g., `anthropic.claude-3-5-sonnet-20240620-v1:0`)
+- `TAVILY_API_KEY` - Your Tavily API key
 
-## Notes
-- The Tavily request uses: `include_raw_content="markdown"`, `max_results=5`, `search_depth="advanced"`, and `include_domains=[domain]`.
-- If results are empty, it retries without domain restriction using the domain + ask string.
-- The Bedrock prompt enforces **strict JSON** conforming to `EnrichmentResponse` (see `lib/types.ts`).
+## Features
 
-## Roadmap
-- Respect robots.txt and site TOS with a thinning fetcher (post-MVP).
-- Add confidence scoring; bulk enrichment with a small DB.
-- Add a single news aggregator hop (topic=news or time filters) when freshness is critical.
+- **Modern UI**: Clean, responsive design with glass morphism effects
+- **Smart Search**: Domain-restricted search with intelligent fallback
+- **Robust Parsing**: Multiple JSON extraction strategies for reliable results
+- **Source Attribution**: Every fact includes source URLs and excerpts
+- **Confidence Scoring**: Optional confidence levels for extracted facts
+- **TypeScript**: Full type safety throughout the application
+
+## Tech Stack
+
+- **Frontend**: Next.js 14, React 18, TypeScript
+- **AI**: Amazon Bedrock (Claude 3.5 Sonnet)
+- **Search**: Tavily Search API
+- **Styling**: Custom CSS with modern design patterns
