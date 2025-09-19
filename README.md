@@ -1,20 +1,23 @@
 # Ask Ava Enrichments
 
-AI-powered company enrichment tool that provides structured insights for sales and business development. Enter a company domain and get facts, personalization angles, coaching hints, and target attributes.
+AI-powered enrichment tool that provides structured insights for sales and business development. Enter any subject (company, person, or domain) and get comprehensive facts, personalization angles, coaching hints, and magic variables for targeted outreach.
 
 ## How It Works
 
-1. **Enter a company domain** (e.g., `openai.com` or `https://stripe.com`)
-2. **Customize your search query** (default: "Find a timely personalization angle")
-3. **AI analyzes the company** using web search and Amazon Bedrock
-4. **Get structured results** with facts, personalization, coaching, and attributes
+1. **Enter a subject** (e.g., `OpenAI`, `artisan.co`, or `Jaspar Carmichael-Jack`)
+2. **Add optional search queries** (e.g., "Has he been on a podcast this year?")
+3. **AI analyzes the subject** using dynamic web search and Amazon Bedrock
+4. **Get structured results** with facts, personalization, coaching, and extracted data points
 
 ### System Architecture
 
-- **Web Search**: Uses Tavily API to find relevant content from the company's website
-- **AI Processing**: Amazon Bedrock (Claude 3.5 Sonnet) extracts structured insights
-- **Domain-First Strategy**: Prioritizes first-party content, falls back to open web
-- **Structured Output**: Returns facts with sources, personalization variants, coaching hints, and target attributes
+- **Dynamic Web Search**: Uses Tavily API with AI-generated search queries (3-5 queries × 2 results)
+- **Dual AI Processing**: Amazon Bedrock (Claude Sonnet + Haiku) for enrichment and magic variables
+- **Parallel Processing**: Runs enrichment and data extraction simultaneously (20-30s response time)
+- **Intelligent Question Generation**: LLM creates 6-8 relevant questions based on subject type
+- **Query-Based Targeting**: Target attributes match user's specific search queries
+- **Smart Filtering**: Only displays high-confidence, complete data points
+- **Source Attribution**: Every fact includes source URLs and excerpts
 
 ## Quick Start
 
@@ -48,12 +51,26 @@ Required environment variables in `.env.local`:
 
 ## Features
 
-- **Modern UI**: Clean, responsive design with glass morphism effects
-- **Smart Search**: Domain-restricted search with intelligent fallback
-- **Robust Parsing**: Multiple JSON extraction strategies for reliable results
+### Core Functionality
+- **Unified Interface**: Single "Analyze" button for both enrichment and magic variables
+- **Subject Flexibility**: Works with companies, people, domains, or any subject
+- **Dynamic Questions**: AI generates relevant questions instead of hardcoded ones
+- **Magic Variables**: Extract specific data points with confidence scores
+- **Personalization Angles**: 2-3 targeted personalization hooks per analysis
+- **Sales Coaching**: Actionable hints for outreach and engagement
+
+### Performance & Quality
+- **Parallel Processing**: 2-3x faster with simultaneous AI calls
+- **Optimized Search**: Reduced scope (3-5 queries × 2 results) for speed
+- **Smart Filtering**: Only shows high-quality, complete data
+- **Query-Based Targeting**: Target attributes match your specific search queries
 - **Source Attribution**: Every fact includes source URLs and excerpts
-- **Confidence Scoring**: Optional confidence levels for extracted facts
+
+### Technical Features
+- **Modern UI**: Clean, responsive design with glass morphism effects
 - **TypeScript**: Full type safety throughout the application
+- **Robust Parsing**: Multiple JSON extraction strategies for reliable results
+- **Error Handling**: Graceful fallbacks and individual error handling
 
 ## Tech Stack
 
